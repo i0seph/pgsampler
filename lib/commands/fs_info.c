@@ -1,4 +1,7 @@
 #include "pgsampler.h"
+#include <utils/timestamp.h>
+
+
 
 char* fs_info(void) {
   char* result;
@@ -7,6 +10,7 @@ char* fs_info(void) {
 	struct statvfs vfs;
 	StringInfoData resultbuf;
 	char strbuf[30];
+	TimestampTz now;
 
   initStringInfo(&resultbuf);
   appendStringInfo(&resultbuf, "FSINFO;");
@@ -58,6 +62,11 @@ char* fs_info(void) {
 	      sprintf(strbuf, "%ld", (unsigned long) vfs.f_bavail);
 	      appendStringInfoString(&resultbuf, strbuf);
 	      appendStringInfo(&resultbuf, FIELD_DELIMIT);
+
+	      /* add current_timestamp */
+	      now = GetCurrentTimestamp();
+	      appendStringInfoString(&resultbuf, (char *)timestamptz_to_str(now));
+
 	      
 	      appendStringInfo(&resultbuf,REC_DELIMIT);
 	    }

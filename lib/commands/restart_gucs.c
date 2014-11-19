@@ -53,6 +53,8 @@ char* restart_gucs(void) {
   
   appendStringInfoString(&resultbuf, GetConfigOption("data_directory", true, true));
   appendStringInfo(&resultbuf, FIELD_DELIMIT);
+
+  appendStringInfo(&resultbuf,REC_DELIMIT);
   
 	appendStringInfoString(&resultbuf, CDELIMIT);
 	

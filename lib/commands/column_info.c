@@ -8,7 +8,7 @@ char* column_info(void) {
   initStringInfo(&query);
   appendStringInfo(&query, 
     "SELECT '%s' as database_name, pg_tables.schemaname, pg_tables.tablename, pg_attribute.attname, "
-    "       pg_type.typname, pg_class.oid as table_oid, attnotnull::text, attstattarget::text,  attnum"
+    "       pg_type.typname, pg_class.oid as table_oid, attnotnull::text, attstattarget::text,  attnum, now()::text as m_at"
     	" FROM pg_tables" 
       "   INNER JOIN pg_class on pg_class.relname = pg_tables.tablename"
       "   INNER JOIN pg_attribute on pg_attribute.attrelid = pg_class.oid" 

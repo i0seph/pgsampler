@@ -6,7 +6,7 @@ char* index_info(void) {
   
   initStringInfo(&query);
   appendStringInfo(&query, 
-    "SELECT '%s', indexrelid, indrelid, indnatts, indkey, indisunique"
+    "SELECT '%s', indexrelid, indrelid, indnatts, indkey, indisunique, now()::text as m_at"
     " FROM pg_index "
     "   INNER JOIN pg_class ON pg_class.oid = pg_index.indexrelid "
     "   INNER JOIN pg_namespace on pg_namespace.oid = pg_class.relnamespace" 

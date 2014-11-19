@@ -1,4 +1,5 @@
 #include "pgsampler.h"
+#include <utils/timestamp.h>
 
 char* system_info(void) {
 	char* result;
@@ -14,6 +15,7 @@ char* system_info(void) {
 	char buffers[30] = "";
 	char cached[30] = "";
 	char swap_cached[30] = "";
+        TimestampTz now;
 
 	initStringInfo(&resultbuf);
   appendStringInfo(&resultbuf, "SYSNFO;");
@@ -77,8 +79,15 @@ char* system_info(void) {
   appendStringInfoString(&resultbuf, buffers);
   appendStringInfo(&resultbuf, FIELD_DELIMIT);
 	
-	appendStringInfoString(&resultbuf, cached);
+  appendStringInfoString(&resultbuf, cached);
   appendStringInfo(&resultbuf, FIELD_DELIMIT);
+
+  /* add current_timestamp */
+  now = GetCurrentTimestamp();
+  appendStringInfoString(&resultbuf, (char *)timestamptz_to_str(now));
+
+  appendStringInfo(&resultbuf,REC_DELIMIT);
+
   
 	appendStringInfoString(&resultbuf, CDELIMIT);
   result = pstrdup(resultbuf.data);    

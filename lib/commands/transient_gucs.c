@@ -127,6 +127,9 @@ char* transient_gucs(void) {
   
   appendStringInfoString(&resultbuf, GetConfigOption("deadlock_timeout", true, true));
   appendStringInfo(&resultbuf, FIELD_DELIMIT);
+
+  appendStringInfo(&resultbuf,REC_DELIMIT);
+
   
 	appendStringInfoString(&resultbuf, CDELIMIT);
 	result = palloc(strlen(resultbuf.data) + 1);
